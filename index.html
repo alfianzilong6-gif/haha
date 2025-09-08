@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lu kon. 😈</title>
+  <style>
+    body{
+      margin:0; font-family: Arial, sans-serif; background:#0f172a; color:#f1f5f9;
+      min-height:100vh; display:flex; align-items:center; justify-content:center;
+    }
+    .box{
+      background:#1e293b; padding:20px; border-radius:14px; width:90%; max-width:500px;
+      box-shadow:0 8px 20px rgba(0,0,0,.5);
+    }
+    h1{ margin:0 0 10px; font-size:26px; }
+    p{ margin:6px 0 14px; color:#94a3b8 }
+    .input{ padding:10px 12px; border-radius:10px; border:1px solid #334155; background:#0f172a; color:white; width:100%; margin-bottom:10px }
+    .btn{ padding:10px 16px; border:none; border-radius:10px; cursor:pointer; font-weight:bold;
+      background:linear-gradient(90deg,#f43f5e,#fb923c); color:#0f172a; transition:.2s }
+    .btn:hover{ transform:scale(1.05) }
+    .arena{ margin-top:14px; height:120px; border:1px dashed #475569; border-radius:12px; position:relative; overflow:hidden; }
+    .runner{ position:absolute; top:40%; left:40%; transform:translate(-50%,-50%); }
+    .progress{ margin-top:14px; height:14px; border-radius:999px; overflow:hidden; background:#0f172a; border:1px solid #334155 }
+    .bar{ height:100%; width:0%; background:linear-gradient(90deg,#f43f5e,#fb923c); transition:.15s }
+    .tip{ font-size:12px; color:#94a3b8 }
+    .reveal{ display:none; margin-top:20px; text-align:center }
+    .link{ color:#fb923c; font-weight:bold; text-decoration:none }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>nama <span id="namaTampil">mu</span> 😈</h1>
+    <p>Isi nama mu kocak 🔥</p>
+    <input id="nama" class="input" placeholder="Nama teman" />
+    <button id="btnSet" class="btn">Set Nama</button>
+
+    <div class="arena" id="arena">
+      <button id="btnKabur" class="btn runner">Klik aku kalau berani!</button>
+    </div>
+
+    <div class="progress"><div id="bar" class="bar"></div></div>
+    <p class="tip">Loading… lebih cepat dari otakmu? 🤣</p>
+
+    <div style="margin-top:10px">
+      <label class="tip">Buktikan kamu bukan beban: ketik <code>AKU PINTAR</code></label>
+      <input id="bukti" class="input" placeholder="Tulis di sini" />
+      <button id="btnCek" class="btn">Cek</button>
+    </div>
+
+    <div id="reveal" class="reveal">
+      <h2>Ketipu! 🤡</h2>
+      <p><span id="namaReveal">Kamu</span>, sejujurnya tolol banget sih klik-klik gini 🤣</p>
+      <p>Udah deh, hadiahmu cuma ini: <a class="link" target="_blank" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">klik kalau berani</a> 😏</p>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s)=>document.querySelector(s);
+    const rand=(a,b)=>Math.random()*(b-a)+a;
+    const nama=$('#nama'), setBtn=$('#btnSet'), namaTampil=$('#namaTampil'), namaReveal=$('#namaReveal');
+    const runBtn=$('#btnKabur'), arena=$('#arena'), bar=$('#bar'), bukti=$('#bukti'), cek=$('#btnCek'), reveal=$('#reveal');
+
+    // Nama
+    setBtn.onclick=()=>{
+      const val=(nama.value||'Bego').trim();
+      namaTampil.textContent=val;
+      namaReveal.textContent=val;
+      alert(`Oke ${val}, siap diprank? 😂`);
+    }
+
+    // Tombol kabur
+    function move(){
+      const r=arena.getBoundingClientRect();
+      runBtn.style.left=rand(20,r.width-60)+'px';
+      runBtn.style.top=rand(20,r.height-60)+'px';
+      pesan();
+    }
+    arena.addEventListener('mousemove',e=>{
+      const r=runBtn.getBoundingClientRect();
+      const d=Math.hypot(e.clientX-(r.left+r.width/2), e.clientY-(r.top+r.height/2));
+      if(d<100) move();
+    });
+    runBtn.addEventListener('mouseenter',move);
+    runBtn.addEventListener('click',()=>{
+      alert('Wkwk ga bakal bisa klik! Lemot amat 🤡');
+    });
+
+    // Progress
+    let p=0,dir=1;
+    setInterval(()=>{
+      p+=dir*(Math.random()*3+1);
+      if(p>=99){p=99;dir=-1;alert('Mentok di 99%! Kayak otakmu, nggak maju-maju 🤣');}
+      if(p<=90) dir=1;
+      bar.style.width=p+'%';
+    },200);
+
+    // Cek manusia
+    cek.onclick=()=>{
+      if((bukti.value||'').trim().toUpperCase()==='AKU PINTAR'){
+        reveal.style.display='block';
+      }else{
+        alert('Salah! Ngetik aja gak becus, pantes remed mulu 🫠');
+      }
+    }
+  </script>
+</body>
+</html>
